@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if not request.user.is_authenticated %}
+        <div style='margin-top:30px;'>
+            <form action="" method='POST'>
+            {% if error %}
+            <p style='color:red;'>{{ error }}</p>
+            {% endif %}
+            {% csrf_token %}
+                {{ form.as_p }}
+                <button type='submit'>Register</button>
+            </form>
+            <p>Você já possui um conta? <a href="/login"> Faça login</a></p>
+        </div>
+    {% else %}
+        <p>
+            Você está logado, gostaria de  
+            <a href='/logout/'>
+                desconectar?
+            </a>
+        </p>
+    {% endif %}
+{% endblock content %}
