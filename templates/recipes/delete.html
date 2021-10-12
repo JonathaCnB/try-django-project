@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if object %}
+        <form action="." method='POST'>
+            {% csrf_token %}
+            <p>Tem certeza que deseja deletar: {{object.name}} ?</p>
+            <button type='submit'>Sim, delete!</button>
+        </form>
+    {% endif %}
+
+{% endblock content %}

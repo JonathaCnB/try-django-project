@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{object.title}}
-    {{object.content}}
+    <h1>{{ object.title }}</h1>
+    <p>Autor: {{ object.user }} {% if request.user == object.user %}<b>É Você!<b>{% endif %}</p>
+    <p>Artigo: {{ object.content }}</p>
 {% endblock content %}

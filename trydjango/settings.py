@@ -15,11 +15,11 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get("DEBUG")) == "1"  # 1 == True
+DEBUG = True  # str(os.environ.get("DEBUG")) == "1"  # 1 == True
 
 ENV_ALLOWED_HOST = os.environ.get("DJANGO_ALLOWED_HOST") or None
 
-ALLOWED_HOSTS = ["try-django-project-5iics.ondigitalocean.app"]
+ALLOWED_HOSTS = ["try-django-project-5iics.ondigitalocean.app", "localhost"]
 if ENV_ALLOWED_HOST is not None:
     ALLOWED_HOSTS = []
 
@@ -34,9 +34,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # 3rd party
+    "django_htmx",
+    'storages',
     # Local Apps
     "users.apps.UsersConfig",
     "articles.apps.ArticlesConfig",
+    "recipes.apps.RecipesConfig",
+    "search.apps.SearchConfig",
 ]
 
 MIDDLEWARE = [
@@ -47,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "trydjango.urls"
@@ -143,6 +148,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+
+MEDIA_URL = "/images/"
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+from .cdn.conf import *  # noqa
+
+# URL: https://trydjango.nyc3.digitaloceanspaces.com
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

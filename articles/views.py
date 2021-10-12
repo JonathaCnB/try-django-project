@@ -1,8 +1,8 @@
 import random
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 
 from articles.models import Article
@@ -23,6 +23,7 @@ def homepage(request, *args, **kwargs):
         "title": article_obj.title,
         "id": article_obj.id,
         "content": article_obj.content,
+        "name": name,
     }
     # Django Templates
     HTML_STRING = render_to_string("home-view.html", context=context)
@@ -34,16 +35,9 @@ def homepage(request, *args, **kwargs):
 
 
 def article_search_view(request):
-    query_dict = request.GET
-    try:
-        query = int(query_dict.get("q"))
-    except:
-        query = None
-
-    article_obj = None
-    if query is not None:
-        article_obj = Article.objects.get(id=query)
-    context = {"object": article_obj}
+    query = request.GET.get("q")
+    qs = Article.objects.search(query=query)
+    context = {"object_list": qs}
     return render(request, "articles/search.html", context)
 
 
@@ -59,14 +53,23 @@ def article_create_view(request, id=None):
         # obj = Article.objects.create(title=title, content=content)
         context["object"] = obj
         context["created"] = True
+        return redirect(obj.get_absolute_url())
 
     return render(request, "articles/create.html", context)
 
 
-def article_detail_view(request, id=None):
+def article_detail_view(request, slug=None):
     article_obj = None
-    if id is not None:
-        article_obj = Article.objects.get(id=id)
+    if slug is not None:
+        try:
+            article_obj = Article.objects.get(slug=slug)
+        except Article.DoesNotExist:
+            raise Http404
+        except Article.MultipleObjectsReturned:
+            article_obj = Article.objects.filter(slug=slug).first()
+        except Exception as e:
+            print(e)
+            raise Http404
 
     context = {
         "object": article_obj,

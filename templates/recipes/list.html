@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ object.title }} (id: {{ id }})!</h1>
-    <p>{{ content }} </p>
-    <a href='{% url "articles:create_view" %}'>Criar Artigos</a>
+    <h1>Minhas Receitas</h1>
+    <a href='{% url "recipes:create_view" %}'>Novas Receitas</a>
 
     <ul>
         {% for x in object_list %}
-            {% if x.title %}
+            {% if x.name %}
                 <li>
                     <a href="{{ x.get_absolute_url }}">
-                        {{ x.title }}
+                        {{ x.name }}
                     </a>
-                    {{ x.content }}
                 </li>
             {% endif %}
         {% endfor %}
