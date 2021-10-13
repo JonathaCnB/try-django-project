@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 3rd party
     "django_htmx",
-    'storages',
+    "storages",
     # Local Apps
     "users.apps.UsersConfig",
     "articles.apps.ArticlesConfig",
@@ -147,9 +147,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
-
 MEDIA_URL = "/images/"
+
+MEDIA_ROOT = BASE_DIR / "staticfiles" / "uploads"
+
+STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 

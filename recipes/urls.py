@@ -11,6 +11,11 @@ urlpatterns = [
     path("detail/<int:id>/", views.recipe_detail_view, name="detail_view"),
     path("delete/<int:id>/", views.recipe_delete_view, name="delete"),
     path(
+        "upload-image/<int:parent_id>/",
+        views.recipe_ingredient_image_upload_view,
+        name="upload_image",
+    ),
+    path(
         "<int:parent_id>/ingredient/<int:id>/",
         views.recipe_ingredient_delete_view,
         name="ingredient_delete",

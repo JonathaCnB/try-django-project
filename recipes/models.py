@@ -1,3 +1,6 @@
+import pathlib
+import uuid
+
 import pint
 from django.db import models
 from django.db.models import Q
@@ -69,6 +72,17 @@ class Recipe(models.Model):
 
     def __str__(self):
         return f"{self.id} | {self.name}"
+
+
+def recipe_ingredient_image_upload_handler(instance, filename):
+    fpath = pathlib.Path(filename)
+    new_fname = str(uuid.uuid1())
+    return f"recipes/ingredient/{new_fname}{fpath.suffix}"
+
+
+class RecipeIngredientImage(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=recipe_ingredient_image_upload_handler)
 
 
 class RecipeIngredient(models.Model):

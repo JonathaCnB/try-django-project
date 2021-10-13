@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Recipe, RecipeIngredient
+from .models import Recipe, RecipeIngredient, RecipeIngredientImage
 
 
 class RecipeIngredientInLine(admin.StackedInline):
@@ -25,3 +25,10 @@ class RecipeIngredientAdmin(admin.ModelAdmin):
     model = RecipeIngredient
     list_display = ["id", "recipe", "name", "timestamp", "update"]
     search_fields = ["name", "description"]
+
+
+@admin.register(RecipeIngredientImage)
+class RecipeIngredientImageAdmin(admin.ModelAdmin):
+    model = RecipeIngredientImage
+    list_display = ["id", "recipe", "image"]
+    search_fields = ["recipe"]
