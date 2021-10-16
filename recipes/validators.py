@@ -6,7 +6,7 @@ from pint.errors import UndefinedUnitError
 def validate_unit_of_measure(value):
     ureg = pint.UnitRegistry()
     try:
-        single_unit = ureg[value]
+        single_unit = ureg[value.lower()]
     except UndefinedUnitError as e:
         print(e)
         raise ValidationError(f"'{value}' não é uma unidade de medida valida")

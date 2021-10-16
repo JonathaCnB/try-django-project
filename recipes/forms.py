@@ -17,7 +17,7 @@ class RecipeForm(forms.ModelForm):
         for field in self.fields:
             new_data = {
                 "placeholder": f"Receita {str(field)}",
-                "class": "form-contol",
+                "class": "form-control",
             }
             self.fields[str(field)].widget.attrs.update(new_data)
             self.fields[str(field)].label = ""
@@ -36,3 +36,4 @@ class RecipeIngredientImageForm(forms.ModelForm):
     class Meta:
         model = RecipeIngredientImage
         fields = ["image"]
+        labels = {"image": "Extrair os ingredientes via upload imagem"}

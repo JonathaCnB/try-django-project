@@ -2,16 +2,25 @@
 
 {% block content %}
     <h1>Minhas Receitas</h1>
-    <a href='{% url "recipes:create_view" %}'>Novas Receitas</a>
+    <h3>
+        <a href='{% url "recipes:create_view" %}'>
+            Novas Receitas
+        </a>
+    </h3>
+    <hr/>
 
     <ul>
         {% for x in object_list %}
             {% if x.name %}
-                <li>
-                    <a href="{{ x.get_absolute_url }}">
+                <div class='mb-2'>
+                    <a class='lead' href="{{ x.get_absolute_url }}">
                         {{ x.name }}
                     </a>
-                </li>
+                    <div hx-get='{% url "recipes:meal_toggle" recipe_id=x.id %}'
+                        hx-trigger='revealed'
+                    >
+                    </div>
+                </div>
             {% endif %}
         {% endfor %}
     </ul>

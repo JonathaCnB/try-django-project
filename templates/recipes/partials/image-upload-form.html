@@ -2,14 +2,18 @@
     <form id='image-upload-form'
         action="." method='POST' enctype='multipart/form-data'
         hx-post='{{ request.path }}' hx-encoding='multipart/form-data'
+        hx-trigger='change from:#id_image'
     />
         {% csrf_token %}
-        {{ form.as_p }}
-        <div>
+        <div class='htmx-inverted-indicator'>
+            {{ form.as_p }}
+        </div>
+        <div class='htmx-indicator'>Loading...</div>
+        <div style='display:none;'>
             <progress id='image-upload-progress' value='0' max='100'></progress>
         </div>
         <div style='margin-top:10px;'>
-            <button type='submit'>Enviar Foto</button>
+            <button type='submit' style='display:none;'>Enviar Foto</button>
         </div>
     </form>
 </div>

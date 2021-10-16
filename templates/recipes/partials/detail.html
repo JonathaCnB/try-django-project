@@ -1,30 +1,43 @@
 {% load static %}
-
-<h1>
-    {{ object.name }} 
-    <small>
-        <a href="{{ object.get_update_url }}">
-            Edit
-        </a>
-        <a 
-            href="{{ object.get_delete_url }}"
-            hx-post="{{ object.get_delete_url }}"
-            hx-confirm="Tem certeza que deseja delete {{ object.name }} ?"
-            hx-trigger='click' 
-        />
-            | Delete
-        </a>
-    </small>
-</h1>
-<p>Autor: {{ object.user.username }}</p>
-<p>{{ object.description }}</p>
-<p>{{ object.directions }}</p>
-
-{% for ingredient in object.get_ingredients_children %}
-<h3>{{ ingredient.name }}</h3>
-<p>{{ ingredient.description }}</p>
-<p>{{ ingredient.as_mks }}</p>
-{% endfor %}
-<h3>
-    <a href="{% url 'recipes:recipe_list' %}">Voltar</a>
-</h3>
+<div class="row">
+    <div class="col-12 col-md-8">
+        <h1>
+            {{ object.name }} 
+            <small>
+                <a href="{{ object.get_update_url }}">
+                    Edit
+                </a>
+                <a 
+                    href="{{ object.get_delete_url }}"
+                    hx-post="{{ object.get_delete_url }}"
+                    hx-confirm="Tem certeza que deseja deletar: {{ object.name }} ?"
+                    hx-trigger='click' 
+                />
+                    | Delete
+                </a>
+            </small>
+        </h1>
+        <p>Autor: {{ object.user.username }}</p>
+        <p>{{ object.description }}</p>
+        <p>{{ object.directions }}</p>
+    </div>
+    <div class="col-12 col-md-4">
+        {% for ingredient in object.get_ingredients_children %}
+            {% include 'recipes/partials/ingredient-inline.html' with object=ingredient%}
+        {% endfor %}
+            <div 
+                hx-get='{{ object.get_image_upload_url }}'
+                hx-trigger='revealed'
+            ></div>
+            <div id='ingredient-create'></div>
+                <button
+                    hx-get={{ new_ingredient_url }} hx-trigger='click'
+                    hx-target='#ingredient-create' hx-swap='beforeend'
+                >
+                    Adicionar Ingrediente
+                </button>
+        <h3>
+            <a href="{% url 'recipes:recipe_list' %}">Voltar</a>
+        </h3>
+    </div>
+</div>

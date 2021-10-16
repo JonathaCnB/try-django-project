@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "articles.apps.ArticlesConfig",
     "recipes.apps.RecipesConfig",
     "search.apps.SearchConfig",
+    "meals.apps.MealsConfig",
 ]
 
 MIDDLEWARE = [
@@ -118,16 +119,16 @@ if POSTGRES_READY:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa
     },
 ]
 
@@ -159,7 +160,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-from .cdn.conf import *  # noqa
+# from .cdn.conf import *  # noqa
 
 # URL: https://trydjango.nyc3.digitaloceanspaces.com
 

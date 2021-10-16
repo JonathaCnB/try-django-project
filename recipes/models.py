@@ -64,6 +64,10 @@ class Recipe(models.Model):
     def get_delete_url(self):
         return reverse("recipes:delete", kwargs={"id": self.id})
 
+    def get_image_upload_url(self):
+        kwarg = {"parent_id": self.id}
+        return reverse("recipes:upload_image", kwargs=kwarg)
+
     def get_ingredients_children(self):
         return self.recipeingredient_set.all()
 
@@ -83,13 +87,14 @@ def recipe_ingredient_image_upload_handler(instance, filename):
 class RecipeIngredientImage(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=recipe_ingredient_image_upload_handler)
+    extracted = models.JSONField(blank=True, null=True)
 
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    quantity = models.CharField(max_length=50)
+    quantity = models.CharField(max_length=50, blank=True, null=True)
     quantity_as_float = models.FloatField(blank=True, null=True)
     unit = models.CharField(
         max_length=50, validators=[validate_unit_of_measure]
@@ -103,7 +108,7 @@ class RecipeIngredient(models.Model):
         if self.quantity_as_float is None:
             return None
         ureg = pint.UnitRegistry(system=system)
-        measurement = self.quantity_as_float * ureg[self.unit]
+        measurement = self.quantity_as_float * ureg[self.unit.lower()]
         print(measurement)
         return measurement  # .to_base_units()
 
